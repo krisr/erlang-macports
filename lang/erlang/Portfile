@@ -1,0 +1,120 @@
+# $Id: Portfile 59874 2009-10-25 04:46:15Z bfulgham@macports.org $
+
+PortSystem 1.0
+name            erlang
+version         R13B02
+revision        4
+categories      lang erlang
+maintainers     bfulgham
+platforms       darwin
+description     The Erlang Programming Language
+long_description                                                        \
+                Erlang is a programming language designed at the        \
+                Ericsson Computer Science Laboratory. Open-source       \
+                Erlang is being released to help encourage the spread   \
+                of Erlang outside Ericsson.                             \
+                                                                        \
+                We are releasing free of charge:                        \
+                    The entire source code of the current Erlang        \
+                    system.                                             \
+                    Extensive libraries of code for building robust     \
+                    fault-tolerant distributed applications.            \
+                    All with documentation.                             \
+                                                                        \
+                All the above software has been battle tested in a      \
+                number of Ericsson products, for example the new        \
+                Ericsson ATM switch. 
+
+homepage        http://www.erlang.org/
+master_sites    http://www.erlang.org/download/ \
+                http://www.erlang.org/download/patches/:patches
+
+# Parallel build doesn't work as per R13B01
+use_parallel_build  no
+
+distfiles       otp_src_${version}${extract.suffix}                    \
+                otp_doc_man_${version}${extract.suffix}                \
+                otp_doc_html_${version}${extract.suffix}
+
+checksums       otp_src_${version}.tar.gz \
+                md5     d70bfba6935e52a7759168a35fbcabe7 \
+                sha1    747f2d7284e5e9983b003b31656bb3921e764f34 \
+                rmd160  bf616616e423e4cbdec1eef2f78593daa09bac21 \
+                otp_doc_man_${version}.tar.gz \
+                md5     975b2c8a1cc2fda017cb5cd3864e32ba \
+                sha1    ee6d511b0a5f992f507860ce554e988967777955 \
+                rmd160  67b64ffde6df84e7a8f1ffeff21a1bfc7bf2f701 \
+                otp_doc_html_${version}.tar.gz \
+                md5     78fc0c139a0297e502a6008bd8166887 \
+                sha1    5562f460c37d36624147af681eebca29dab7ee36 \
+                rmd160  d4377abe16ae3558a4e3bd9196ff1553b0a8b889
+
+pre-patch       { file rename ${workpath}/otp_src_${version} ${workpath}/${name}-${version} }
+
+# http://www.erlang.org/pipermail/erlang-bugs/2009-January/001171.html
+patchfiles	patch-toolbar.erl \
+                patch-erts_emulator_Makefile.in \
+                patch-erts_emulator_hipe_hipe_amd64_asm.m4.diff \
+                patch-erts_emulator_hipe_hipe_amd64_bifs.m4.diff \
+                patch-erts_emulator_hipe_hipe_amd64_glue.S.diff \
+                patch-erts_emulator_hipe_hipe_amd64.c.diff \
+                patch-erts_emulator_sys_unix_sys_float.c.diff \
+                patch-erts_configure.diff \
+                patch-lib_ssl_c_src_esock_openssl.c \
+                patch-lib_wx_configure.in \
+                patch-lib_wx_configure \
+                patch-lib-ssh-src-ssh_connection_handler.erl.diff
+
+configure.args  --prefix=${destroot}${prefix}	\
+                --enable-kernel-poll            \
+                --enable-threads                \
+                --enable-dynamic-ssl-lib        \
+                --enable-smp-support            \
+                --enable-hipe                   \
+                --disable-ssl
+
+platform darwin 10 {
+    # 10.6 comes with wxWidgets and since it requires libsdl, which
+    # current doesn't compile (bug #20235), we can avoid it here.
+    depends_build-delete    port:wxWidgets
+
+    patchfiles-delete	patch-lib_ssl_c_src_esock_openssl.c
+}
+
+variant ssl description {Build SSL support}	{
+        configure.args-delete    --disable-ssl
+	configure.args-append    --with-ssl=${prefix}
+	configure.ldflags-append -lz
+	depends_build-append     port:openssl
+	depends_run-append       port:openssl
+}
+
+variant nohipe description {Disable HiPE (native-code bytecode compiler)}   {
+	configure.args-delete   --enable-hipe
+}
+
+variant sshkeys description {Enable passing keys to ssh connnections} {
+    patchfiles-append patch-lib-ssh-src-ssh_auth.erl.diff
+}
+
+depends_build   port:gawk \
+                port:wxWidgets
+depends_run     port:tk
+
+post-destroot	{
+	system "tar -C ${destroot}${prefix}/lib/erlang -zxvf ${distpath}/otp_doc_html_${version}${extract.suffix}"
+	system "tar -C ${destroot}${prefix}/lib/erlang -zxvf ${distpath}/otp_doc_man_${version}${extract.suffix}"
+ 
+        set erts_dir   erts-5.7.3
+
+        reinplace s|${destroot}|| ${destroot}${prefix}/lib/erlang/bin/erl
+        reinplace s|${destroot}|| ${destroot}${prefix}/lib/erlang/bin/start
+        reinplace s|${destroot}|| ${destroot}${prefix}/lib/erlang/${erts_dir}/bin/erl
+        reinplace s|${destroot}|| ${destroot}${prefix}/lib/erlang/${erts_dir}/bin/start
+
+	foreach x {dialyzer ear ecc elink epmd erl erlc escript run_erl start to_erl typer} { file delete -force ${destroot}${prefix}/bin/${x} }
+	foreach x {dialyzer erl erlc escript run_erl start to_erl typer} { system "ln -s ../lib/erlang/bin/${x} ${destroot}${prefix}/bin/${x}" }
+
+	file delete -force ${destroot}${prefix}/lib/erlang/bin/epmd
+	system "ln -s ../${erts_dir}/bin/epmd ${destroot}${prefix}/lib/erlang/bin/epmd"
+}

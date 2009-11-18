@@ -1,0 +1,10 @@
+--- lib/ssh/src/ssh_connection_handler.erl.orig	2009-11-18 10:40:06.000000000 -0800
++++ lib/ssh/src/ssh_connection_handler.erl	2009-11-18 10:40:57.000000000 -0800
+@@ -737,6 +737,7 @@
+ 	    State) when Buff =/= <<>> ->
+     %% More data from the next packet has been received
+     %% Fake a socket-recive message so that the data will be processed
++    inet:setopts(Socket, [{active, once}]),
+     self() ! {Protocol, Socket, <<>>} ,
+     State;
+ 

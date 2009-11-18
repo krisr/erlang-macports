@@ -1,0 +1,83 @@
+K 25
+svn:wc:ra_dav:version-url
+V 66
+/repository/macports/!svn/ver/58771/trunk/dports/lang/erlang/files
+END
+patch-erts_emulator_hipe_hipe_amd64.c.diff
+K 25
+svn:wc:ra_dav:version-url
+V 109
+/repository/macports/!svn/ver/56884/trunk/dports/lang/erlang/files/patch-erts_emulator_hipe_hipe_amd64.c.diff
+END
+patch-erts_emulator_hipe_hipe_amd64_bifs.m4.diff
+K 25
+svn:wc:ra_dav:version-url
+V 115
+/repository/macports/!svn/ver/56884/trunk/dports/lang/erlang/files/patch-erts_emulator_hipe_hipe_amd64_bifs.m4.diff
+END
+patch-toolbar.erl
+K 25
+svn:wc:ra_dav:version-url
+V 84
+/repository/macports/!svn/ver/21487/trunk/dports/lang/erlang/files/patch-toolbar.erl
+END
+patch-erts_configure.diff
+K 25
+svn:wc:ra_dav:version-url
+V 92
+/repository/macports/!svn/ver/56884/trunk/dports/lang/erlang/files/patch-erts_configure.diff
+END
+patch-lib_wx_configure
+K 25
+svn:wc:ra_dav:version-url
+V 89
+/repository/macports/!svn/ver/50714/trunk/dports/lang/erlang/files/patch-lib_wx_configure
+END
+patch-erts_emulator_Makefile.in
+K 25
+svn:wc:ra_dav:version-url
+V 98
+/repository/macports/!svn/ver/58746/trunk/dports/lang/erlang/files/patch-erts_emulator_Makefile.in
+END
+patch-lib_ssl_c_src_esock_openssl.c
+K 25
+svn:wc:ra_dav:version-url
+V 102
+/repository/macports/!svn/ver/41672/trunk/dports/lang/erlang/files/patch-lib_ssl_c_src_esock_openssl.c
+END
+patch-lib_wx_configure.in
+K 25
+svn:wc:ra_dav:version-url
+V 92
+/repository/macports/!svn/ver/50714/trunk/dports/lang/erlang/files/patch-lib_wx_configure.in
+END
+patch-erts_emulator_hipe_hipe_amd64_glue.S.diff
+K 25
+svn:wc:ra_dav:version-url
+V 114
+/repository/macports/!svn/ver/58746/trunk/dports/lang/erlang/files/patch-erts_emulator_hipe_hipe_amd64_glue.S.diff
+END
+patch-lib-erl_interface-src-connect-ei_connect.c.diff
+K 25
+svn:wc:ra_dav:version-url
+V 120
+/repository/macports/!svn/ver/51590/trunk/dports/lang/erlang/files/patch-lib-erl_interface-src-connect-ei_connect.c.diff
+END
+patch-lib-erl_interface-include-ei.h.diff
+K 25
+svn:wc:ra_dav:version-url
+V 108
+/repository/macports/!svn/ver/51590/trunk/dports/lang/erlang/files/patch-lib-erl_interface-include-ei.h.diff
+END
+patch-erts_emulator_hipe_hipe_amd64_asm.m4.diff
+K 25
+svn:wc:ra_dav:version-url
+V 114
+/repository/macports/!svn/ver/56884/trunk/dports/lang/erlang/files/patch-erts_emulator_hipe_hipe_amd64_asm.m4.diff
+END
+patch-erts_emulator_sys_unix_sys_float.c.diff
+K 25
+svn:wc:ra_dav:version-url
+V 112
+/repository/macports/!svn/ver/56884/trunk/dports/lang/erlang/files/patch-erts_emulator_sys_unix_sys_float.c.diff
+END

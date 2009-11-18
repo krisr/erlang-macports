@@ -1,0 +1,15 @@
+--- lib/ssh/src/ssh_auth.erl.orig	2009-11-05 18:55:19.000000000 -0800
++++ lib/ssh/src/ssh_auth.erl	2009-11-05 18:56:04.000000000 -0800
+@@ -39,10 +39,11 @@
+ publickey_msg([Cb, #ssh{user = User,
+ 		       session_id = SessionId,
+ 		       service = Service,
++           key_cb = Mod,
+ 		       opts = Opts} = Ssh]) ->
+     ssh_bits:install_messages(userauth_pk_messages()),
+     Alg = Cb:alg_name(),
+-    case ssh_file:private_identity_key(Alg, Opts) of
++    case Mod:private_identity_key(Alg, Opts) of
+ 	{ok, PrivKey} ->
+ 	    PubKeyBlob = ssh_file:encode_public_key(PrivKey),
+ 	    SigData = build_sig_data(SessionId, 
